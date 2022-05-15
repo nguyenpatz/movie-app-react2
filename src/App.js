@@ -33,12 +33,29 @@ function App() {
     }
   }
 
+  // useEffect
+  useEffect(() => {
+    getMovieRequest(searchValue);
+  }, [searchValue]);
+
+  // initialize favourite movie when user does not any type for search movie
+  useEffect(() => {
+    getMovieRequest("Iron man");
+    getFromLocalStorage();
+  }, []);
+
+
+  // save favourite movies into localStorage
+  const saveToLocalStorage = (movies) => { 
+    localStorage.setItem(STORAGE_LABEL, JSON.stringify(movies)); 
+  };
+
   //update favourite movies
   const addFavouriteMovie = (movie) => {
     const newMovies = [...favouriteMovies, movie];
     setFavouriteMovie(newMovies);
     saveToLocalStorage(newMovies);
-  }
+  };
 
   //remove favourite movies
   const removeFavouriteMovie = (movie) => {
@@ -47,29 +64,18 @@ function App() {
     // setFavouriteMovie(favouriteMovies.filter(favourite => favourite.imdbID !== movie.imdbID))
     setFavouriteMovie(newMovies);
     saveToLocalStorage(newMovies);
-  }
+  };
 
-  // save favourite movies into localStorage
-  const saveToLocalStorage = (movies) => { localStorage.setItem(STORAGE_LABEL, JSON.stringify(movies)); } 
 
   // get movies from localStorage
   const getFromLocalStorage = () => { 
     const movieFavourite = JSON.parse(localStorage.getItem(STORAGE_LABEL)); 
-    setFavouriteMovie(movieFavourite); 
+    if(movieFavourite) {
+      setFavouriteMovie(movieFavourite); 
+    }
   }
 
   
-  // useEffect
-  useEffect(() => {
-    getMovieRequest(searchValue);
-  }, [searchValue]);
-
-
-  // initialize favourite movie when user does not any type for search movie
-  useEffect(() => {
-    getMovieRequest("Iron man");
-    getFromLocalStorage();
-  }, []);
 
   return (
     <div className="container">
