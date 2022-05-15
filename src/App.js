@@ -38,6 +38,7 @@ function App() {
     getMovieRequest(searchValue);
   }, [searchValue]);
 
+
   // initialize favourite movie when user does not any type for search movie
   useEffect(() => {
     getMovieRequest("Iron man");
@@ -52,7 +53,8 @@ function App() {
 
   //update favourite movies
   const addFavouriteMovie = (movie) => {
-    const newMovies = [...favouriteMovies, movie];
+    const differentMovie = favouriteMovies.filter(favourite => favourite.imdbID !== movie.imdbID);
+    const newMovies = [...differentMovie, movie];
     setFavouriteMovie(newMovies);
     saveToLocalStorage(newMovies);
   };

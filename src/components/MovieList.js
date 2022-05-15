@@ -9,7 +9,6 @@ const MovieList = (props) => {
 					<div className="overlay" onClick={() => props.hanldeClickFavourite(movie)}>
 						<props.favouriteComponent title={props.title}/>
 					</div>
-					
 				</div>
 			))}		
 		</div>
