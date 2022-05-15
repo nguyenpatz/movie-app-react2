@@ -36,7 +36,7 @@ function App() {
   //update favourite movies
   const addFavouriteMovie = (movie) => {
     const newMovies = [...favouriteMovies, movie];
-    setFavouriteMovie(() => [...favouriteMovies, movie]);
+    setFavouriteMovie(newMovies);
     saveToLocalStorage(newMovies);
   }
 
@@ -50,7 +50,7 @@ function App() {
   }
 
   // save favourite movies into localStorage
-  const saveToLocalStorage = (movies) => { localStorage.setItem("favourite-movie", JSON.stringify(movies)); } 
+  const saveToLocalStorage = (movies) => { localStorage.setItem(STORAGE_LABEL, JSON.stringify(movies)); } 
 
   // get movies from localStorage
   const getFromLocalStorage = () => { 
@@ -67,6 +67,7 @@ function App() {
 
   // initialize favourite movie when user does not any type for search movie
   useEffect(() => {
+    getMovieRequest("Iron man");
     getFromLocalStorage();
   }, []);
 
@@ -85,12 +86,12 @@ function App() {
             favouriteComponent={AddToFavourites}
             hanldeClickFavourite={addFavouriteMovie}
             title={"Add to Favourites"}
-        />) : (
+        />) : favouriteMovies?.length > 0 ?(
               <MovieList 
                 movies={favouriteMovies} 
                 favouriteComponent={AddToFavourites}
                 hanldeClickFavourite={removeFavouriteMovie} 
-                title={"Remove from Favourites"}/>)
+                title={"Remove from Favourites"}/>) : <p>empty</p>
       }
       
       <footer className="footer">
